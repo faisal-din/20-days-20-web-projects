@@ -5,13 +5,28 @@ const quoteText = document.querySelector('#quote');
 const authorText = document.querySelector('#author');
 const twitterBtn = document.querySelector('#twitter');
 const newQuoteBtn = document.querySelector('#new-quote');
+const loader = document.querySelector('.loader');
 
 let currentQuote  = [];
 
+// Show Loading Spinner 
+function loading() {
+    loader.hidden = false;
+    quoteContainer.hidden = true;
+}
+
+// Hide Loading Spinner
+function complete(params) {
+    quoteContainer.hidden = false;
+    loader.hidden = true;
+    
+}
+
+
 // Show New Quote
 function newQuote() {
-    const quote = currentQuote
-
+    loading();
+    const quote = currentQuote;
     // Check if Author field is blank and replace it with 'Unknown'
     if (!quote.author) {
         authorText.textContent = 'Unknown';
@@ -24,11 +39,15 @@ function newQuote() {
     } else {
         quoteText.classList.remove('long-quote');
     }
+    //Set Quote, Hide Loader
     quoteText.textContent = quote.quote;
+    complete();
 }
 
 // Get Quotes From API
 async function getQuotes() {
+    loading();
+
     const apiUrl = 'https://api.api-ninjas.com/v1/quotes';
     const apiKey = 'DAHF9GqFyczhxaYKbzJXbw==zpNxK9RUbrIjscgP';
     
